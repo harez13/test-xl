@@ -15,6 +15,8 @@ if xl_file and xendit_file:
         xendit_df = pd.read_csv(xendit_file)
 
         # Tampilkan nama kolom agar user tahu format
+        st.subheader("Nama kolom file xl.csv:")
+        st.write(xl_df.columns.tolist())
         st.subheader("Nama kolom file xendit.csv:")
         st.write(xendit_df.columns.tolist())
 
