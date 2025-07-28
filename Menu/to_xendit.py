@@ -48,12 +48,13 @@ if xl_file and xendit_file:
                 output.seek(0)
 
                 nama_file = st.text_input('Input nama file : ')
+                nama_file += '.xlsx'
 
                 # Tombol download
                 st.download_button(
                     label="Download hasil sebagai Excel",
                     data=output,
-                    file_name= nama_file + ".xlsx",
+                    file_name= nama_file,
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
             else:
