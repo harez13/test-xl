@@ -3,7 +3,7 @@ import pandas as pd
 import re
 from io import BytesIO
 
-st.title("Perbandingan Transaction ID dengan Reference")
+st.title("Pengecekan Xendit (MyXL)")
 
 # Upload file
 xl_file = st.file_uploader("Upload file xl.csv, dengan delimiter ;", type=["csv"])

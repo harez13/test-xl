@@ -2,36 +2,36 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 
-st.title("Perbandingan Transaction ID dengan Reference")
+st.title("Pengecekan Midtrans")
 
 # Upload file
-xl_file = st.file_uploader("Upload file xl.csv", type=["csv"])
-xendit_file = st.file_uploader("Upload file xendit.csv", type=["csv"])
+xl_file = st.file_uploader("Upload file xl", type=["csv"])
+midtrans_df = st.file_uploader("Upload file midtrans", type=["csv"])
 
-if xl_file and xendit_file:
+if xl_file and midtrans_df:
     try:
         # Baca file
         xl_df = pd.read_csv(xl_file, delimiter=';')
-        xendit_df = pd.read_csv(xendit_file)
+        midtrans_df = pd.read_csv(midtrans_df)
 
         # Tampilkan nama kolom agar user tahu format
         st.subheader("Nama kolom file xl.csv:")
         st.write(xl_df.columns.tolist())
         st.subheader("Nama kolom file xendit.csv:")
-        st.write(xendit_df.columns.tolist())
+        st.write(midtrans_df.columns.tolist())
 
         # Jalankan perbandingan saat tombol ditekan
         if st.button("Jalankan Perbandingan"):
             # Normalisasi nama kolom (hilangkan spasi sebelum/sesudah)
-            xendit_df.columns = xendit_df.columns.str.strip()
+            midtrans_df.columns = midtrans_df.columns.str.strip()
 
-            # Cek apakah kolom 'reference' dan 'Settlement Status' ada
-            if "Reference" in xendit_df.columns and "Status" in xendit_df.columns:
+            # Cek apakah kolom 'Order Id' dan 'Transaction Status' ada
+            if "Order Id" in midtrans_df.columns and "Transaction Status" in midtrans_df.columns:
                 # Buat mapping
-                reference_status = xendit_df.set_index("Reference")["Status"].to_dict()
+                orderid_status = midtrans_df.set_index("Order Id")["Transaction Status"].to_dict()
 
                 # Tambahkan kolom baru ke xl_df
-                xl_df["Settlement_Status"] = xl_df["transactionid"].map(reference_status)
+                xl_df["Settlement_Status"] = xl_df["transactionid"].map(orderid_status)
 
                 # Tampilkan hasil
                 st.success("Perbandingan selesai!")
@@ -46,11 +46,11 @@ if xl_file and xendit_file:
                 st.download_button(
                     label="Download hasil sebagai Excel",
                     data=output,
-                    file_name="hasil_perbandingan.xlsx",
+                    file_name="hasil_perbandingan_midtrans.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
             else:
-                st.error("Kolom 'Reference' atau 'Status' tidak ditemukan di file xendit.csv.")
+                st.error("Kolom 'Order Id' atau 'Status' tidak ditemukan di file xendit.csv.")
 
     except Exception as e:
         st.error(f"Terjadi kesalahan: {e}")
