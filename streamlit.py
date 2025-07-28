@@ -14,7 +14,7 @@ to_midtrans = st.Page(
 )
 
 #-- Navigation Setup [Without Sections] --
-# pg = st.navigation(pages = [tentang_saya, project1_page, project2_page])
+pg = st.navigation(pages = [to_xendit, to_midtrans])
 
 # #-- Navigation Setup With Sections
 # pg = st.navigation(
