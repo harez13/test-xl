@@ -47,9 +47,18 @@ if xl_file and xendit_file:
                 xl_df.to_excel(output, index=False)
                 output.seek(0)
 
-                nama_file = st.text_input('Input nama file : ')
-                nama_file += '.xlsx'
+                # Input nama file dari user
+                nama_file = st.text_input('Input nama file:', value="hasil_perbandingan")
 
+                # Tombol download, hanya aktif jika nama_file diisi
+                if nama_file:
+                    # Sanitasi nama file (hapus karakter yang tidak diperbolehkan dalam nama file)
+                    nama_file_bersih = re.sub(r'[\\/*?:"<>|]', "_", nama_file)
+
+                    # Pastikan akhiran .xlsx
+                    if not nama_file_bersih.lower().endswith(".xlsx"):
+                        nama_file_bersih += ".xlsx"
+                        
                 # Tombol download
                 st.download_button(
                     label="Download hasil sebagai Excel",
