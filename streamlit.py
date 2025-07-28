@@ -26,9 +26,9 @@ if xl_file and xendit_file:
             xendit_df.columns = xendit_df.columns.str.strip()
 
             # Cek apakah kolom 'reference' dan 'Settlement Status' ada
-            if "Reference" in xendit_df.columns and "Settlement Status" in xendit_df.columns:
+            if "Reference" in xendit_df.columns and "Status" in xendit_df.columns:
                 # Buat mapping
-                reference_status = xendit_df.set_index("Reference")["Settlement Status"].to_dict()
+                reference_status = xendit_df.set_index("Reference")["Status"].to_dict()
 
                 # Tambahkan kolom baru ke xl_df
                 xl_df["Settlement_Status"] = xl_df["transactionid"].map(reference_status)
@@ -50,7 +50,7 @@ if xl_file and xendit_file:
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
             else:
-                st.error("Kolom 'Reference' atau 'Settlement Status' tidak ditemukan di file xendit.csv.")
+                st.error("Kolom 'Reference' atau 'Status' tidak ditemukan di file xendit.csv.")
 
     except Exception as e:
         st.error(f"Terjadi kesalahan: {e}")
