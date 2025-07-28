@@ -5,7 +5,7 @@ from io import BytesIO
 st.title("Perbandingan Transaction ID dengan Reference")
 
 # Upload file
-xl_file = st.file_uploader("Upload file xl.csv, dengan delimiter: ;", type=["csv"])
+xl_file = st.file_uploader("Upload file xl.csv, dengan delimiter ;", type=["csv"])
 xendit_file = st.file_uploader("Upload file xendit.csv, tanpa tanda \"", type=["csv"])
 
 if xl_file and xendit_file:
@@ -13,6 +13,11 @@ if xl_file and xendit_file:
         # Baca file
         xl_df = pd.read_csv(xl_file, delimiter=';')
         xendit_df = pd.read_csv(xendit_file)
+
+        # Normalisasi nama kolom xl_df
+        xl_df = xl_df.columns.str.strip().str.lower()  # ubah semua nama kolom ke lowercase
+        xendit_df = xendit_df.columns.str.strip()
+
 
         # Tampilkan nama kolom agar user tahu format
         st.subheader("Nama kolom file xl.csv:")
