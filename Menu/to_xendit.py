@@ -15,8 +15,8 @@ if xl_file and xendit_file:
         xendit_df = pd.read_csv(xendit_file)
 
         # Normalisasi nama kolom xl_df
-        xl_df = xl_df.columns.str.strip().str.lower()  # ubah semua nama kolom ke lowercase
-        xendit_df = xendit_df.columns.str.strip()
+        xl_df.columns = xl_df.columns.str.strip().str.lower()  # ubah semua nama kolom ke lowercase
+        xendit_df.columns = xendit_df.columns.str.strip()
 
 
         # Tampilkan nama kolom agar user tahu format
