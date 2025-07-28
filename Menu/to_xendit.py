@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import re
 from io import BytesIO
 
 st.title("Perbandingan Transaction ID dengan Reference")
@@ -58,7 +59,7 @@ if xl_file and xendit_file:
                     # Pastikan akhiran .xlsx
                     if not nama_file_bersih.lower().endswith(".xlsx"):
                         nama_file_bersih += ".xlsx"
-                        
+
                 # Tombol download
                 st.download_button(
                     label="Download hasil sebagai Excel",
