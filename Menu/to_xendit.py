@@ -5,8 +5,8 @@ from io import BytesIO
 st.title("Perbandingan Transaction ID dengan Reference")
 
 # Upload file
-xl_file = st.file_uploader("Upload file xl.csv", type=["csv"])
-xendit_file = st.file_uploader("Upload file xendit.csv", type=["csv"])
+xl_file = st.file_uploader("Upload file xl.csv, dengan delimiter: ;", type=["csv"])
+xendit_file = st.file_uploader("Upload file xendit.csv, tanpa tanda \"", type=["csv"])
 
 if xl_file and xendit_file:
     try:
