@@ -1,56 +1,41 @@
 import streamlit as st
-import pandas as pd
-from io import BytesIO
 
-st.title("Perbandingan Transaction ID dengan Reference")
 
-# Upload file
-xl_file = st.file_uploader("Upload file xl.csv", type=["csv"])
-xendit_file = st.file_uploader("Upload file xendit.csv", type=["csv"])
+# -- Page Setup --
 
-if xl_file and xendit_file:
-    try:
-        # Baca file
-        xl_df = pd.read_csv(xl_file, delimiter=';')
-        xendit_df = pd.read_csv(xendit_file)
+to_xendit = st.Page(
+    'Menu/to_xendit.py',
+    title = 'Cek ke Xendit',
+)
 
-        # Tampilkan nama kolom agar user tahu format
-        st.subheader("Nama kolom file xl.csv:")
-        st.write(xl_df.columns.tolist())
-        st.subheader("Nama kolom file xendit.csv:")
-        st.write(xendit_df.columns.tolist())
+to_midtrans = st.Page(
+    'Menu/to_midtrans.py',
+    title = 'Cek ke Midtrans',
+)
 
-        # Jalankan perbandingan saat tombol ditekan
-        if st.button("Jalankan Perbandingan"):
-            # Normalisasi nama kolom (hilangkan spasi sebelum/sesudah)
-            xendit_df.columns = xendit_df.columns.str.strip()
+#-- Navigation Setup [Without Sections] --
+# pg = st.navigation(pages = [tentang_saya, project1_page, project2_page])
 
-            # Cek apakah kolom 'reference' dan 'Settlement Status' ada
-            if "Reference" in xendit_df.columns and "Status" in xendit_df.columns:
-                # Buat mapping
-                reference_status = xendit_df.set_index("Reference")["Status"].to_dict()
+# #-- Navigation Setup With Sections
+# pg = st.navigation(
+#     {
+#         'Info' : [tentang_saya, homepage],
+#         'Projects' : [project1_page, project2_page, dataset]
+#     }
+# )
 
-                # Tambahkan kolom baru ke xl_df
-                xl_df["Settlement_Status"] = xl_df["transactionid"].map(reference_status)
 
-                # Tampilkan hasil
-                st.success("Perbandingan selesai!")
-                st.dataframe(xl_df.head())
 
-                # Simpan ke Excel (in-memory)
-                output = BytesIO()
-                xl_df.to_excel(output, index=False)
-                output.seek(0)
+# pages = {
+#     'Info' : [
+#         st.Page('Menu/tentang_saya.py', title='Tentang Saya')
+#     ],
+#     'Projects' : [
+#         st.Page('Menu/dashboard.py', title='Dashboard')
+#     ]
+# }
 
-                # Tombol download
-                st.download_button(
-                    label="Download hasil sebagai Excel",
-                    data=output,
-                    file_name="hasil_perbandingan.xlsx",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                )
-            else:
-                st.error("Kolom 'Reference' atau 'Status' tidak ditemukan di file xendit.csv.")
+# pg = st.navigation(pages)
 
-    except Exception as e:
-        st.error(f"Terjadi kesalahan: {e}")
+#-- Run Navigation
+pg.run()
